@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/45a940c8-a1df-407f-87b2-1cf8aee33f6b)# company_project
+# company_project
 SBGrid 솔루션을 활용한 데이터 서비스 개발
 
 
