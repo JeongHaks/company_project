@@ -1,5 +1,5 @@
 # company_project
-SBGrid 솔루션을 활용한 데이터 서비스 개발
+SBGrid 솔루션을 활용한 데이터 서비스 개발 [ Master Branch에 테스트 화면 개발 완료 ] 
 
 
 # 프록제트 개요
