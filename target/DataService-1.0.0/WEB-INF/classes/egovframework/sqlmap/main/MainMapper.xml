@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="egovframework.main.service.MainMapper">
+
+	<!--기본 페이징을 위한 개수-->
+    <select id="pageingTotal" resultType="java.lang.Integer">
+       SELECT COUNT(*) AS TOTAL
+		FROM(
+       		select ctpv
+				 , yymmdd
+				 , mm
+				 , fuel
+				 , car_ty
+				 , vehicle_ty
+				 , purps
+				 , sum(rgn_car) as rgn_car
+			from dataservice_temp
+			where 1=1
+			<if test="cido != null and cido != ''">
+			and ctpv = #{cido}
+			</if>
+			<if test="year != null and year != ''">
+			and yymmdd = #{year}
+			</if>
+			<if test="mm != null and mm != ''">
+			and mm = #{mm}
+			</if>
+			group by ctpv
+					 , yymmdd
+					 , mm
+					 , fuel
+					 , car_ty
+					 , vehicle_ty
+					 , purps
+			order by yymmdd desc
+					,case when ctpv='서울' then 1
+						  when ctpv='인천' then 2
+						  when ctpv='경기' then 3
+						  when ctpv='부산' then 4
+						  when ctpv='대구' then 5
+						  when ctpv='울산' then 6
+						  when ctpv='대전' then 7
+						  when ctpv='광주' then 8
+						  when ctpv='세종' then 9
+						  when ctpv='강원' then 10
+						  when ctpv='충북' then 11
+						  when ctpv='충남' then 12
+						  when ctpv='전북' then 13
+						  when ctpv='전남' then 14
+						  when ctpv='경북' then 15
+						  when ctpv='경남' then 16
+						  when ctpv='제주' then 17
+					  	  else 99
+					 end 
+					, yymmdd desc
+       ) AS sub
+    </select>
+    
+    <!-- 전체 개수 -->
+    <select id="dataserviceTotal" resultType="java.util.Map">
+       SELECT COUNT(*) AS TOTAL
+       FROM(
+       		select ctpv
+				 , yymmdd
+				 , mm
+				 , fuel
+				 , car_ty
+				 , vehicle_ty
+				 , purps
+				 , sum(rgn_car) as rgn_car
+			from dataservice_temp
+			where 1=1
+			<if test="cido != null and cido != ''">
+			and ctpv = #{cido}
+			</if>
+			<if test="year != null and year != ''">
+			and yymmdd = #{year}
+			</if>
+			<if test="mm != null and mm != ''">
+			and mm = #{mm}
+			</if>
+			group by ctpv
+					 , yymmdd
+					 , mm
+					 , fuel
+					 , car_ty
+					 , vehicle_ty
+					 , purps
+			order by yymmdd desc
+					,case when ctpv='서울' then 1
+						  when ctpv='인천' then 2
+						  when ctpv='경기' then 3
+						  when ctpv='부산' then 4
+						  when ctpv='대구' then 5
+						  when ctpv='울산' then 6
+						  when ctpv='대전' then 7
+						  when ctpv='광주' then 8
+						  when ctpv='세종' then 9
+						  when ctpv='강원' then 10
+						  when ctpv='충북' then 11
+						  when ctpv='충남' then 12
+						  when ctpv='전북' then 13
+						  when ctpv='전남' then 14
+						  when ctpv='경북' then 15
+						  when ctpv='경남' then 16
+						  when ctpv='제주' then 17
+					  	  else 99
+					 end 
+					, yymmdd desc
+       ) AS sub	   
+    </select>
+    
+    <!-- 그리드 -->
+    <select id="dataservice" resultType="java.util.Map">
+    	select ctpv
+			 , yymmdd
+			 , mm
+			 , fuel
+			 , car_ty
+			 , vehicle_ty
+			 , purps
+			 , sum(rgn_car) as rgn_car
+		from dataservice_temp
+		where 1=1
+		<if test="cido != null and cido != ''">
+		and ctpv = #{cido}
+		</if>
+		<if test="year != null and year != ''">
+		and yymmdd = #{year}
+		</if>
+		<if test="mm != null and mm != ''">
+		and mm = #{mm}
+		</if>
+		group by ctpv
+				 , yymmdd
+				 , mm
+				 , fuel
+				 , car_ty
+				 , vehicle_ty
+				 , purps
+		order by yymmdd desc
+				,case when ctpv='서울' then 1
+					  when ctpv='인천' then 2
+					  when ctpv='경기' then 3
+					  when ctpv='부산' then 4
+					  when ctpv='대구' then 5
+					  when ctpv='울산' then 6
+					  when ctpv='대전' then 7
+					  when ctpv='광주' then 8
+					  when ctpv='세종' then 9
+					  when ctpv='강원' then 10
+					  when ctpv='충북' then 11
+					  when ctpv='충남' then 12
+					  when ctpv='전북' then 13
+					  when ctpv='전남' then 14
+					  when ctpv='경북' then 15
+					  when ctpv='경남' then 16
+					  when ctpv='제주' then 17
+				  	  else 99
+				 end 
+				, yymmdd desc
+		LIMIT #{pageSize} OFFSET #{offset}
+    </select>
+	
+	<!-- 시도 필터 -->
+	<select id="cido" resultType="java.util.Map">
+		select ctpv 
+		from dataservice_temp
+		where 1=1
+		group by ctpv 
+		order by case when ctpv='서울' then 1
+					  when ctpv='인천' then 2
+					  when ctpv='경기' then 3
+					  when ctpv='부산' then 4
+					  when ctpv='대구' then 5
+					  when ctpv='울산' then 6
+					  when ctpv='대전' then 7
+					  when ctpv='광주' then 8
+					  when ctpv='세종' then 9
+					  when ctpv='강원' then 10
+					  when ctpv='충북' then 11
+					  when ctpv='충남' then 12
+					  when ctpv='전북' then 13
+					  when ctpv='전남' then 14
+					  when ctpv='경북' then 15
+					  when ctpv='경남' then 16
+					  when ctpv='제주' then 17
+				  	  else 99
+				 end 
+	</select>
+	<!-- 연도 필터 -->
+	<select id="year" resultType="java.util.Map">
+		select yymmdd 
+		from dataservice_temp
+		where 1=1
+		group by yymmdd 
+		order by yymmdd desc 
+	</select>
+	<!-- 연도-월 필터 연계 -->
+	<select id="getmonth" resultType="hashMap">
+		select mm 
+		from dataservice_temp
+		where 1=1
+		<if test="year != null and year != ''">
+		and yymmdd = #{year}
+		</if>
+		group by mm 
+		order by case when mm='10' then 1
+					  when mm='11' then 2
+					  when mm='12' then 3
+					  else 0
+				end 
+				, mm
+	</select>
+	<!-- 월 필터 -->
+	<select id="mm" resultType="java.util.Map">
+		select mm 
+		from dataservice_temp
+		where 1=1
+		group by mm 
+		order by case when mm='10' then 1
+					  when mm='11' then 2
+					  when mm='12' then 3
+					  else 0
+				end 
+				, mm
+	</select>
+	
+		
+</mapper>
